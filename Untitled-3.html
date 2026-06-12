@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PracticeStudy</title>
+
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #12002d;
+      overflow-x: hidden;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* LOGIN */
+
+    .login-box {
+      width: 360px;
+      max-width: 90%;
+      background: white;
+      padding: 40px;
+      border-radius: 25px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+    }
+
+    .logo img {
+      width: 180px;
+      margin-bottom: 20px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 15px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #f1f1f1;
+      font-size: 16px;
+    }
+
+    .entrar,
+    .criar,
+    .voltar {
+      width: 100%;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .entrar { background: #7a00ff; color: white; }
+    .criar  { background: #1cb0f6; color: white; }
+    .voltar { background: #999;    color: white; }
+
+    .erro {
+      margin-top: 15px;
+      background: #ffe5e5;
+      color: red;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    #cadastro { display: none; }
+
+    /* BEM-VINDO */
+
+    #app {
+      display: none;
+      width: 100%;
+      min-height: 100vh;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+      text-align: center;
+      background: linear-gradient(180deg, #140033, #3d008a);
+      padding: 20px;
+    }
+
+    .logoBem { width: 180px; margin-bottom: 20px; }
+
+    #app h1 { font-size: 45px; margin-bottom: 15px; }
+    #app p  { font-size: 25px; }
+
+    .loader {
+      width: 70px;
+      height: 70px;
+      border: 8px solid rgba(255,255,255,0.3);
+      border-top: 8px solid white;
+      border-radius: 50%;
+      margin-top: 40px;
+      animation: girar 1s linear infinite;
+    }
+
+    @keyframes girar {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* TRILHA */
+
+    #trilha {
+      display: none;
+      width: 100%;
+      min-height: 100vh;
+      overflow-y: auto;
+      background-color: #16003d;
+      background-image: url("MathBackground.jpeg");
+      background-size: cover;
+      background-position: center;
+      padding: 15px 15px 120px;
+    }
+
+    .topoTrilha {
+      width: 100%;
+      background: white;
+      border-radius: 30px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      color: #2c0080;
+    }
+
+    .perfilTrilha { display: flex; align-items: center; gap: 15px; }
+
+    .logoTopo { width: 70px; height: 70px; object-fit: contain; }
+
+    .perfilTrilha h1 { font-size: 35px; }
+    .perfilTrilha p  { font-size: 22px; }
+
+    .status { display: flex; gap: 25px; }
+
+    .statusItem { font-size: 24px; text-align: center; font-weight: bold; }
+
+    .materiaBox {
+      margin-top: 25px;
+      background: white;
+      border-radius: 30px;
+      padding: 25px;
+      color: #2c0080;
+    }
+
+    .materiaBox h2 { margin-bottom: 20px; font-size: 35px; }
+
+    .materias {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .materiaAtiva,
+    .materia {
+      width: 180px;
+      height: 120px;
+      border-radius: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .materiaAtiva {
+      background: linear-gradient(180deg, #b347ff, #6f00ff);
+      color: white;
+    }
+
+    .materia { border: 4px solid #7a00ff; }
+
+    .troca { font-size: 60px; }
+
+    .caminho {
+      margin-top: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 45px;
+    }
+
+    .fase {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle at top, #d67dff, #7a00ff);
+      box-shadow: 0 0 35px #c15eff, 0 0 60px #8f2fff;
+      color: white;
+      font-size: 42px;
+      font-weight: bold;
+      transition: 0.25s;
+    }
+
+    .fase:hover { transform: scale(1.08); }
+
+    .fase:nth-child(even) { margin-left: 180px; }
+    .fase:nth-child(odd)  { margin-right: 180px; }
+
+    .fase.concluida {
+      background: radial-gradient(circle at top, #78ff90, #22b944);
+      box-shadow: 0 0 35px #47d764, 0 0 60px #22b944;
+    }
+
+    .fase.especial {
+      background: radial-gradient(circle at top, #ddec06, #f4f801);
+      box-shadow: 0 0 35px #acaa3e, 0 0 60px #e4c203;
+    }
+
+    .fase.bloqueada {
+      background: radial-gradient(circle at top, #bcbcbc, #777);
+      box-shadow: none;
+      cursor: not-allowed;
+      opacity: 0.85;
+    }
+
+    /* QUIZ */
+
+    #quiz {
+      display: none;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #140033, #3d008a);
+      color: white;
+      padding-bottom: 120px;
+    }
+
+    .topoQuiz {
+      width: 95%;
+      max-width: 950px;
+      margin: 15px auto;
+      background: white;
+      border-radius: 35px;
+      padding: 18px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      color: #2c0080;
+    }
+
+    .perfilQuiz { display: flex; align-items: center; gap: 18px; }
+
+    .logoQuiz { width: 70px; height: 70px; object-fit: contain; }
+
+    .infoQuiz h1 { font-size: 42px; }
+    .infoQuiz p  { font-size: 22px; }
+
+    .statusQuiz { display: flex; gap: 35px; }
+
+    .itemQuiz { text-align: center; font-size: 28px; font-weight: bold; }
+
+    .containerQuiz {
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px 20px 40px;
+    }
+
+    .perguntaBox {
+      background: white;
+      color: #2c0080;
+      border-radius: 35px;
+      padding: 35px;
+      margin-top: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .numero {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #7a00ff;
+    }
+
+    .pergunta {
+      font-size: 34px;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+
+    .alternativas { display: flex; flex-direction: column; gap: 20px; }
+
+    .alternativa {
+      width: 100%;
+      padding: 22px;
+      border-radius: 22px;
+      background: #f1f1f1;
+      color: #222;
+      font-size: 22px;
+      font-weight: bold;
+      transition: 0.25s;
+    }
+
+    .alternativa:hover:not(:disabled) {
+      transform: scale(1.03);
+      background: #e7d7ff;
+    }
+
+    .alternativa:disabled { cursor: not-allowed; }
+
+    .animacaoCorreta { background: #47d764 !important; color: white !important; }
+    .animacaoErrada  { background: #ff4d4d !important; color: white !important; }
+
+    .proximo,
+    .botaoVoltarTrilha,
+    .botaoTentarNovamente,
+    .botaoConcluirProvisorio {
+      width: 100%;
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 22px;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .proximo,
+    .botaoVoltarTrilha { background: linear-gradient(180deg, #b347ff, #6f00ff); }
+
+    .botaoTentarNovamente    { background: linear-gradient(180deg, #1cb0f6, #0077ff); }
+    .botaoConcluirProvisorio { background: linear-gradient(180deg, #ffb347, #ff7300); }
+
+    .proximo { display: none; }
+
+    .resultadoFinal { text-align: center; }
+
+    .resultadoFinal h1 { font-size: 38px; margin-bottom: 20px; }
+    .resultadoFinal p  { font-size: 26px; line-height: 1.5; margin-top: 10px; }
+
+    /* BANNER MODO INFINITO */
+
+    #bannerInfinito {
+      display: none;
+      width: 95%;
+      max-width: 950px;
+      margin: 0 auto 10px;
+      background: linear-gradient(135deg, #1a0040, #3d008a);
+      border: 2px solid #ff9900;
+      border-radius: 20px;
+      padding: 14px 22px;
+      color: white;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    #bannerInfinito span { font-size: 20px; font-weight: bold; }
+    #bannerInfinito span em { color: #ff9900; font-style: normal; }
+
+    .botaoSairInfinito {
+      padding: 12px 22px;
+      border-radius: 14px;
+      background: #ff4d4d;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .botaoSairInfinito:hover { background: #e03030; }
+
+    /* MENU INFERIOR */
+
+    .menuBottom {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #130033;
+      padding: 18px;
+      display: flex;
+      justify-content: space-around;
+      border-top: 2px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+
+    .menuItem { text-align: center; font-size: 22px; color: #9c7dff; font-weight: bold; }
+    .menuItem.ativo { color: white; }
+
+    .menuItem button {
+      background: transparent;
+      color: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+    }
+
+    /* RESPONSIVO */
+
+    @media (max-width: 700px) {
+      .topoTrilha,
+      .topoQuiz { flex-direction: column; align-items: flex-start; }
+
+      .perfilTrilha h1,
+      .infoQuiz h1 { font-size: 25px; }
+
+      .perfilTrilha p,
+      .infoQuiz p  { font-size: 18px; }
+
+      .statusItem,
+      .itemQuiz    { font-size: 18px; }
+
+      .materiaAtiva,
+      .materia { width: 140px; height: 95px; font-size: 22px; }
+
+      .troca { font-size: 40px; }
+
+      .fase { width: 95px; height: 95px; font-size: 32px; }
+
+      .fase:nth-child(even) { margin-left: 100px; }
+      .fase:nth-child(odd)  { margin-right: 100px; }
+
+      .perguntaBox { padding: 25px; }
+      .pergunta    { font-size: 24px; }
+      .alternativa { font-size: 18px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LOGIN -->
+
+  <div class="login-box" id="loginBox">
+    <div class="logo">
+      <img src="logo.png" alt="Logo PracticeStudy">
+    </div>
+
+    <input type="text"     id="apelido" placeholder="Digite seu apelido">
+    <input type="password" id="senha"   placeholder="Digite sua senha">
+
+    <button type="button" class="entrar" onclick="entrar()">Entrar</button>
+    <button type="button" class="criar"  onclick="abrirCadastro()">Criar Conta</button>
+
+    <div id="erro"></div>
+  </div>
+
+  <!-- CADASTRO -->
+
+  <div class="login-box" id="cadastro">
+    <h1 style="color:#7a00ff;">Criar Conta</h1>
+
+    <input type="text"     id="novoApelido"  placeholder="Apelido">
+    <input type="text"     id="nomeCompleto" placeholder="Nome completo">
+
+    <select id="sala">
+      <option value="">Selecione sua sala</option>
+      <option>6ºA</option>
+      <option>7ºA</option>
+      <option>8ºA</option>
+      <option>9ºA</option>
+    </select>
+
+    <input type="password" id="novaSenha" placeholder="Senha">
+
+    <button type="button" class="criar"  onclick="criarConta()">Criar Conta</button>
+    <button type="button" class="voltar" onclick="voltarLogin()">Voltar</button>
+  </div>
+
+  <!-- BEM-VINDO -->
+
+  <div id="app">
+    <img src="logo.png" class="logoBem" alt="Logo PracticeStudy">
+    <h1>Bem-vindo 🚀</h1>
+    <p id="usuario"></p>
+    <div class="loader"></div>
+  </div>
+
+  <!-- TRILHA -->
+
+  <div id="trilha">
+    <div class="topoTrilha">
+      <div class="perfilTrilha">
+        <img src="logo.png" class="logoTopo" alt="Logo PracticeStudy">
+        <div>
+          <h1>PracticeStudy</h1>
+          <p id="nomeTopo">Jogador</p>
+        </div>
+      </div>
+
+      <div class="status">
+        <div class="statusItem">🔥<br><span id="acertosTrilha">0</span></div>
+        <div class="statusItem">💎<br><span id="xpTrilha">0</span> XP</div>
+      </div>
+    </div>
+
+    <div class="materiaBox">
+      <h2>Matéria atual</h2>
+      <div class="materias">
+        <div class="materiaAtiva">Matemática</div>
+        <div class="troca">⇄</div>
+        <div class="materia">Português</div>
+      </div>
+    </div>
+
+    <div class="caminho">
+      <button type="button" class="fase bloqueada" id="fase6" onclick="faseBloqueada()">🔒</button>
+      <button type="button" class="fase bloqueada" id="fase5" onclick="faseBloqueada()">🔒</button>
+      <button type="button" class="fase bloqueada" id="fase4" onclick="faseBloqueada()">🔒</button>
+      <button type="button" class="fase bloqueada" id="fase3" onclick="faseBloqueada()">🔒</button>
+      <button type="button" class="fase bloqueada" id="fase2" onclick="faseBloqueada()">🔒</button>
+      <button type="button" class="fase"           id="fase1" onclick="abrirQuizMatematica(1)">1</button>
+    </div>
+
+    <div class="menuBottom">
+      <div class="menuItem">🏆<br>Ranking</div>
+      <div class="menuItem ativo">🛣️<br>Trilha</div>
+      <div class="menuItem">👤<br>Perfil</div>
+    </div>
+  </div>
+
+  <!-- QUIZ MATEMÁTICA -->
+
+  <div id="quiz">
+    <div class="topoQuiz">
+      <div class="perfilQuiz">
+        <img src="logo.png" class="logoQuiz" alt="Logo PracticeStudy">
+        <div class="infoQuiz">
+          <h1>PracticeStudy</h1>
+          <p>Quiz Matemática - Fase 1</p>
+        </div>
+      </div>
+
+      <div class="statusQuiz">
+        <div class="itemQuiz">🔥<br><span id="acertosQuiz">0</span></div>
+        <div class="itemQuiz">💎<br><span id="xpQuiz">0</span> XP</div>
+      </div>
+    </div>
+
+    <!-- Banner do modo infinito (oculto por padrão) -->
+    <div id="bannerInfinito">
+      <span>♾️ Modo Infinito — <em>sem XP</em></span>
+      <button type="button" class="botaoSairInfinito" onclick="sairModoInfinito()">✕ Sair</button>
+    </div>
+
+    <div class="containerQuiz">
+      <div class="perguntaBox" id="perguntaBox">
+        <div class="numero" id="numeroPergunta">Pergunta 1 de 10</div>
+        <div class="pergunta" id="pergunta"></div>
+        <div class="alternativas" id="alternativas"></div>
+        <button type="button" class="proximo" id="proximo">Próxima Pergunta →</button>
+      </div>
+    </div>
+
+    <div class="menuBottom">
+      <div class="menuItem">🏆<br>Ranking</div>
+      <div class="menuItem ativo">
+        <button type="button" onclick="voltarParaTrilha()">🛣️<br>Trilha</button>
+      </div>
+      <div class="menuItem">👤<br>Perfil</div>
+    </div>
+  </div>
+
+  <script>
+    /* ── CONFIGURAÇÕES ────────────────────────────────────────────── */
+
+    const senhaCorreta = "1234";
+    const TOTAL_FASES  = 6;
+
+    /* ── ESTADO GLOBAL ────────────────────────────────────────────── */
+
+    let jogadorAtual    = "Jogador";
+    let xpTotal         = 0;
+    let acertosTotal    = 0;
+    let fasesConcluidas = 0;
+    let faseAtual       = 1;
+
+    // Quiz normal
+    let perguntas     = [];
+    let perguntaAtual = 0;
+    let acertosFase   = 0;
+    let xpFase        = 0;
+
+    // Modo infinito
+    let modoInfinito       = false;
+    let perguntasInfinitas = 0;
+    let acertosInfinitos   = 0;
+
+    /* ── GERADOR DE PERGUNTAS (Index.html) ────────────────────────── */
+
+    function gerarPerguntaMatematica() {
+      let tipo     = Math.floor(Math.random() * 6);
+      let n1       = Math.floor(Math.random() * 40);
+      let n2       = Math.floor(Math.random() * 20);
+      let pergunta = "";
+      let resposta = 0;
+      let usaLatex = false;
+
+      switch (tipo) {
+        case 0: {
+          pergunta = `Quanto é ${n1} + ${n2}?`;
+          resposta = n1 + n2;
+          break;
+        }
+        case 1: {
+          pergunta = `Quanto é ${n1} - ${n2}?`;
+          resposta = n1 - n2;
+          break;
+        }
+        case 2: {
+          while (n2 > 10) n2 = Math.floor(Math.random() * 20);
+          while (n1 > 10) n1 = Math.floor(Math.random() * 40);
+          pergunta = `Quanto é ${n1} × ${n2}?`;
+          resposta = n1 * n2;
+          break;
+        }
+        case 3: {
+          while (n2 > 10) n2 = Math.floor(Math.random() * 20);
+          while (n1 > 10) n1 = Math.floor(Math.random() * 40);
+          resposta = n1;
+          pergunta = `Quanto é ${n1 * n2} ÷ ${n2}?`;
+          break;
+        }
+        case 4: {
+          let base     = Math.floor(Math.random() * 8);
+          let expoente = Math.floor(Math.random() * 3);
+          resposta     = base ** expoente;
+          pergunta     = `${base}^{${expoente}}`;
+          usaLatex     = true;
+          break;
+        }
+        case 5: {
+          let raiz = Math.floor(Math.random() * 11);
+          resposta = raiz;
+          pergunta = `\\sqrt{${raiz * raiz}}`;
+          usaLatex = true;
+          break;
+        }
+      }
+
+      let alternativas = [
+        resposta,
+        resposta + Math.floor(Math.random() * 5) + 1,
+        resposta - (Math.floor(Math.random() * 4) + 1),
+        resposta + (Math.floor(Math.random() * 9) + 2)
+      ];
+
+      alternativas = [...new Set(alternativas)];
+      while (alternativas.length < 4) {
+        alternativas.push(resposta + Math.floor(Math.random() * 20) - 10);
+      }
+      alternativas = alternativas.sort(function () { return Math.random() - 0.5; });
+
+      return {
+        pergunta:     pergunta,
+        usaLatex:     usaLatex,
+        alternativas: alternativas.map(String),
+        correta:      alternativas.indexOf(resposta)
+      };
+    }
+
+    /* ── UTILITÁRIOS ──────────────────────────────────────────────── */
+
+    function esconderTelas() {
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("cadastro").style.display = "none";
+      document.getElementById("app").style.display      = "none";
+      document.getElementById("trilha").style.display   = "none";
+      document.getElementById("quiz").style.display     = "none";
+    }
+
+    function atualizarStatusGeral() {
+      document.getElementById("acertosTrilha").innerText = acertosTotal;
+      document.getElementById("xpTrilha").innerText      = xpTotal;
+      document.getElementById("acertosQuiz").innerText   = acertosFase;
+      document.getElementById("xpQuiz").innerText        = xpFase;
+
+      for (let i = 1; i <= TOTAL_FASES; i++) {
+        const btn = document.getElementById("fase" + i);
+        if (!btn) continue;
+
+        btn.classList.remove("concluida", "especial", "bloqueada");
+
+        if (i <= fasesConcluidas) {
+          btn.classList.add("concluida");
+          btn.innerText = "✓";
+          btn.onclick   = null;
+        } else if (fasesConcluidas === TOTAL_FASES - 1 && i === TOTAL_FASES) {
+          btn.classList.add("especial");
+          btn.innerText = "⭐";
+          btn.onclick   = (function(n){ return function(){ abrirQuizMatematica(n); }; })(i);
+        } else if (i === fasesConcluidas + 1) {
+          btn.innerText = i;
+          btn.onclick   = (function(n){ return function(){ abrirQuizMatematica(n); }; })(i);
+        } else {
+          btn.classList.add("bloqueada");
+          btn.innerText = "🔒";
+          btn.onclick   = faseBloqueada;
+        }
+      }
+    }
+
+    function faseBloqueada() {
+      alert("Complete a fase anterior para desbloquear esta fase.");
+    }
+
+    /* ── LOGIN / CADASTRO ─────────────────────────────────────────── */
+
+    function entrar() {
+      const apelido = document.getElementById("apelido").value.trim();
+      const senha   = document.getElementById("senha").value;
+
+      if (apelido === "") {
+        document.getElementById("erro").innerHTML = '<div class="erro">Digite um apelido</div>';
+        return;
+      }
+
+      if (senha !== senhaCorreta) {
+        document.getElementById("erro").innerHTML = '<div class="erro">Senha incorreta</div>';
+        return;
+      }
+
+      abrirApp(apelido);
+    }
+
+    function abrirCadastro() {
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("cadastro").style.display = "block";
+    }
+
+    function voltarLogin() {
+      document.getElementById("cadastro").style.display = "none";
+      document.getElementById("loginBox").style.display = "block";
+    }
+
+    function criarConta() {
+      const apelido = document.getElementById("novoApelido").value.trim();
+      const senha   = document.getElementById("novaSenha").value.trim();
+
+      if (apelido === "") { alert("Digite um apelido para criar sua conta."); return; }
+      if (senha   === "") { alert("Digite uma senha para criar sua conta.");  return; }
+
+      abrirApp(apelido);
+    }
+
+    function abrirApp(apelido) {
+      jogadorAtual = apelido;
+
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("cadastro").style.display = "none";
+      document.getElementById("app").style.display      = "flex";
+
+      document.getElementById("usuario").innerText  = "Olá, " + apelido + "!";
+      document.getElementById("nomeTopo").innerText = apelido;
+
+      setTimeout(function () {
+        document.getElementById("app").style.display = "none";
+        const trilha = document.getElementById("trilha");
+        trilha.style.display = "block";
+        atualizarStatusGeral();
+        setTimeout(function () { trilha.scrollTop = trilha.scrollHeight; }, 50);
+      }, 1500);
+    }
+
+    /* ── QUIZ NORMAL ──────────────────────────────────────────────── */
+
+    function abrirQuizMatematica(numFase) {
+      modoInfinito = false;
+      faseAtual    = numFase;
+      esconderTelas();
+      document.getElementById("quiz").style.display           = "block";
+      document.getElementById("bannerInfinito").style.display = "none";
+
+      const infoP = document.querySelector(".infoQuiz p");
+      if (infoP) infoP.innerText = "Quiz Matemática - Fase " + numFase;
+
+      iniciarQuizMatematica();
+    }
+
+    function iniciarQuizMatematica() {
+      perguntas     = [];
+      perguntaAtual = 0;
+      acertosFase   = 0;
+      xpFase        = 0;
+
+      for (let i = 0; i < 10; i++) {
+        perguntas.push(gerarPerguntaMatematica());
+      }
+
+      document.getElementById("perguntaBox").innerHTML = `
+        <div class="numero" id="numeroPergunta">Pergunta 1 de 10</div>
+        <div class="pergunta" id="pergunta"></div>
+        <div class="alternativas" id="alternativas"></div>
+        <button type="button" class="proximo" id="proximo">Próxima Pergunta →</button>
+        <button type="button" class="botaoConcluirProvisorio" onclick="concluirFaseProvisoriamente()">
+          ⚡ Botão provisório: concluir fase com 10 acertos
+        </button>
+      `;
+
+      atualizarStatusGeral();
+      carregarPergunta();
+    }
+
+    function carregarPergunta() {
+      const q = perguntas[perguntaAtual];
+
+      document.getElementById("numeroPergunta").innerHTML =
+        "Pergunta " + (perguntaAtual + 1) + " de " + perguntas.length;
+
+      const elPergunta = document.getElementById("pergunta");
+      if (q.usaLatex) {
+        elPergunta.innerHTML = "Quanto é " +
+          katex.renderToString(q.pergunta, { throwOnError: false, displayMode: false }) + "?";
+      } else {
+        elPergunta.innerHTML = q.pergunta;
+      }
+
+      const elAlts = document.getElementById("alternativas");
+      elAlts.innerHTML = "";
+
+      q.alternativas.forEach(function (alt, index) {
+        const botao     = document.createElement("button");
+        botao.type      = "button";
+        botao.classList.add("alternativa");
+        botao.innerHTML = alt;
+        botao.onclick   = function () { verificarResposta(botao, index); };
+        elAlts.appendChild(botao);
+      });
+
+      const proximo         = document.getElementById("proximo");
+      proximo.style.display = "none";
+      proximo.onclick       = proximaPergunta;
+    }
+
+    function verificarResposta(botao, index) {
+      const q      = perguntas[perguntaAtual];
+      const botoes = document.querySelectorAll(".alternativa");
+
+      botoes.forEach(function (btn, i) {
+        btn.disabled = true;
+        if (i === q.correta) btn.classList.add("animacaoCorreta");
+      });
+
+      if (index !== q.correta) {
+        botao.classList.add("animacaoErrada");
+      } else {
+        acertosFase++;
+        xpFase += 10;
+        atualizarStatusGeral();
+      }
+
+      document.getElementById("proximo").style.display = "block";
+    }
+
+    function proximaPergunta() {
+      perguntaAtual++;
+      if (perguntaAtual < perguntas.length) {
+        carregarPergunta();
+      } else {
+        finalizarFaseMatematica();
+      }
+    }
+
+    function concluirFaseProvisoriamente() {
+      acertosFase   = perguntas.length;
+      xpFase        = perguntas.length * 10;
+      perguntaAtual = perguntas.length;
+      atualizarStatusGeral();
+      finalizarFaseMatematica();
+    }
+
+    function finalizarFaseMatematica() {
+      if (faseAtual > fasesConcluidas && faseAtual != TOTAL_FASES) fasesConcluidas = faseAtual;
+      acertosTotal += acertosFase;
+      xpTotal      += xpFase;
+
+      atualizarStatusGeral();
+
+      const proximaFase = faseAtual + 1;
+      const temProxima  = proximaFase <= TOTAL_FASES;
+
+      document.getElementById("perguntaBox").innerHTML = `
+        <div class="resultadoFinal">
+          <h1>Fase ${faseAtual} concluída! 🎉</h1>
+          <p>Você acertou <strong>${acertosFase}</strong> de <strong>${perguntas.length}</strong> perguntas.</p>
+          <p>Você ganhou <strong>${xpFase} XP</strong> nesta fase.</p>
+
+          ${temProxima
+            ? `<p style="margin-top:20px; color:#47d764; font-weight:bold;">🔓 Fase ${proximaFase} desbloqueada!</p>`
+            : `<p style="margin-top:20px; color:#ffd700; font-weight:bold;">🏆 Trilha completa!</p>
+               <button type="button" class="botaoConcluirProvisorio" onclick="iniciarModoInfinito()">♾️ Recomeçar sem recompensas</button>`
+          }
+
+          <button type="button" class="botaoVoltarTrilha" onclick="voltarParaTrilha()">
+            Voltar para a trilha 🛣️
+          </button>
+        </div>
+      `;
+    }
+
+    /* ── MODO INFINITO ────────────────────────────────────────────── */
+
+    function iniciarModoInfinito() {
+      modoInfinito       = true;
+      perguntasInfinitas = 0;
+      acertosInfinitos   = 0;
+
+      esconderTelas();
+      document.getElementById("quiz").style.display           = "block";
+      document.getElementById("bannerInfinito").style.display = "flex";
+
+      const infoP = document.querySelector(".infoQuiz p");
+      if (infoP) infoP.innerText = "♾️ Modo Infinito";
+
+      carregarLoteInfinito();
+    }
+
+    function carregarLoteInfinito() {
+      perguntas     = [];
+      perguntaAtual = 0;
+
+      for (let i = 0; i < 10; i++) {
+        perguntas.push(gerarPerguntaMatematica());
+      }
+
+      document.getElementById("perguntaBox").innerHTML = `
+        <div class="numero" id="numeroPergunta"></div>
+        <div class="pergunta" id="pergunta"></div>
+        <div class="alternativas" id="alternativas"></div>
+        <button type="button" class="proximo" id="proximo">Próxima Pergunta →</button>
+      `;
+
+      carregarPerguntaInfinita();
+    }
+
+    function carregarPerguntaInfinita() {
+      const q = perguntas[perguntaAtual];
+
+      document.getElementById("numeroPergunta").innerHTML =
+        "Pergunta " + (perguntasInfinitas + 1) + " &nbsp;|&nbsp; Acertos: " + acertosInfinitos;
+
+      const elPergunta = document.getElementById("pergunta");
+      if (q.usaLatex) {
+        elPergunta.innerHTML = "Quanto é " +
+          katex.renderToString(q.pergunta, { throwOnError: false, displayMode: false }) + "?";
+      } else {
+        elPergunta.innerHTML = q.pergunta;
+      }
+
+      const elAlts = document.getElementById("alternativas");
+      elAlts.innerHTML = "";
+
+      q.alternativas.forEach(function (alt, index) {
+        const botao     = document.createElement("button");
+        botao.type      = "button";
+        botao.classList.add("alternativa");
+        botao.innerHTML = alt;
+        botao.onclick   = function () { verificarRespostaInfinita(botao, index); };
+        elAlts.appendChild(botao);
+      });
+
+      const proximo         = document.getElementById("proximo");
+      proximo.style.display = "none";
+      proximo.onclick       = proximaPerguntaInfinita;
+    }
+
+    function verificarRespostaInfinita(botao, index) {
+      const q      = perguntas[perguntaAtual];
+      const botoes = document.querySelectorAll(".alternativa");
+
+      botoes.forEach(function (btn, i) {
+        btn.disabled = true;
+        if (i === q.correta) btn.classList.add("animacaoCorreta");
+      });
+
+      perguntasInfinitas++;
+
+      if (index !== q.correta) {
+        botao.classList.add("animacaoErrada");
+      } else {
+        acertosInfinitos++;
+      }
+
+      document.getElementById("numeroPergunta").innerHTML =
+        "Pergunta " + perguntasInfinitas + " &nbsp;|&nbsp; Acertos: " + acertosInfinitos;
+
+      document.getElementById("proximo").style.display = "block";
+    }
+
+    function proximaPerguntaInfinita() {
+      perguntaAtual++;
+      if (perguntaAtual < perguntas.length) {
+        carregarPerguntaInfinita();
+      } else {
+        carregarLoteInfinito();
+      }
+    }
+
+    function sairModoInfinito() {
+      modoInfinito = false;
+      document.getElementById("bannerInfinito").style.display = "none";
+      voltarParaTrilha();
+    }
+
+    /* ── NAVEGAÇÃO ────────────────────────────────────────────────── */
+
+    function voltarParaTrilha() {
+      esconderTelas();
+      const trilha = document.getElementById("trilha");
+      trilha.style.display = "block";
+      atualizarStatusGeral();
+      setTimeout(function () { trilha.scrollTop = trilha.scrollHeight; }, 50);
+    }
+  </script>
+
+</body>
+</html>
